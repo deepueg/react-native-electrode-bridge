@@ -48,6 +48,7 @@ matrix:
       jdk: oraclejdk8
       node_js: false
       install:
+          - yarn
           - nvm install 8
           - rm -Rf "${TMPDIR}/jest_preprocess_cache"
           - brew install yarn --ignore-dependencies
