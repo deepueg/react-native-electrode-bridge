@@ -1,4 +1,6 @@
-language: android
+language:
+   - android
+   - node_js
 install:
 #  - nvm install 8
 #  - rm -Rf "${TMPDIR}/jest_preprocess_cache"
