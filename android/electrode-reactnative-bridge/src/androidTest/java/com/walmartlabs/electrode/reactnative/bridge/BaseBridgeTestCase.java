@@ -66,7 +66,7 @@ public class BaseBridgeTestCase extends InstrumentationTestCase {
                 try {
                     reactInstanceManager = ReactInstanceManager.builder()
                             .setApplication(instrumentation.newApplication(MyTestApplication.class.getClassLoader(), MyTestApplication.class.getName(), getInstrumentation().getContext()))
-                            .setBundleAssetName("index.android.42.bundle")
+                            .setBundleAssetName("index.android.bundle")
                             .setJSMainModuleName("index.android")
                             .addPackage(new MainReactPackage())
                             .setUseDeveloperSupport(false)
