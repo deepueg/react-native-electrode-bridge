@@ -2,11 +2,15 @@ language: android
 install:
   - nvm install 8
   - rm -Rf "${TMPDIR}/jest_preprocess_cache"
+  - mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
   - brew install yarn --ignore-dependencies
   - brew install watchman
   - yarn install
 
 before_script: cd android
+
+after_script:
+  - rm -rf homebrew
 android:
   components:
     # Uncomment the lines below if you want to
