@@ -1,36 +1,102 @@
-language:
-   - android
-   - node_js
-install:
-#  - nvm install 8
-#  - rm -Rf "${TMPDIR}/jest_preprocess_cache"
-#  - mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
-#  - brew install yarn --ignore-dependencies
-#  - brew install watchman
-  - yarn install
+#language:
+#   - android
+#
+#install:
+##  - nvm install 8
+##  - rm -Rf "${TMPDIR}/jest_preprocess_cache"
+##  - mkdir homebrew && curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip 1 -C homebrew
+##  - brew install yarn --ignore-dependencies
+##  - brew install watchman
+#  - yarn install
+#
+#before_script: cd android
+#
+#android:
+#  components:
+#    # Uncomment the lines below if you want to
+#    # use the latest revision of Android SDK Tools
+#    # - tools
+#    # - platform-tools
+#
+#    # The BuildTools version used by your project
+#    - build-tools-26.0.0
+#
+#    # The SDK version used to compile your project
+#    - android-24
+#
+#    # Additional components
+##    - extra-google-google_play_services
+##    - extra-google-m2repository
+##    - extra-android-m2repository
+##    - addon-google_apis-google-19
+#
+#    # Specify at least one system image,
+#    # if you need to run emulator(s) during your tests
+#    - sys-img-armeabi-v7a-android-22
+#    - sys-img-armeabi-v7a-android-17
 
-before_script: cd android
-
-android:
-  components:
-    # Uncomment the lines below if you want to
-    # use the latest revision of Android SDK Tools
-    # - tools
-    # - platform-tools
-
-    # The BuildTools version used by your project
-    - build-tools-26.0.0
-
-    # The SDK version used to compile your project
-    - android-24
-
-    # Additional components
-#    - extra-google-google_play_services
-#    - extra-google-m2repository
-#    - extra-android-m2repository
-#    - addon-google_apis-google-19
-
-    # Specify at least one system image,
-    # if you need to run emulator(s) during your tests
-    - sys-img-armeabi-v7a-android-22
-    - sys-img-armeabi-v7a-android-17
+#####NEW###
+language: node_js
+node_js:
+  - "6.9"
+  - "7.1"
+sudo: false
+cache:
+  directories:
+    - $HOME/.yarn-cache
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+env:
+  - NODE_ENV='test'
+script:
+  - cp env.example.js env.js
+  - npm run lint
+  - npm test
+  - npm run bundle:ios
+matrix:
+  include:
+    - language: android
+      os: linux
+      jdk: oraclejdk8
+      before_cache:
+        - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+        - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+      sudo: required
+      node_js: false
+      before_install:
+        - nvm install 7
+        - node --version
+        - travis_retry curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+        - echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+        - travis_retry sudo apt-get update -qq
+        - travis_retry sudo apt-get install -y -qq yarn
+      install:
+        - yarn
+      android:
+        components:
+          - build-tools-26.0.0
+          - android-24
+          - extra-android-m2repository
+          - extra-google-google_play_services
+          - extra-google-m2repository
+#          - addon-google_apis-google-16
+      script:
+        - cd android && ./gradlew assembleDebug
+#    - language: objective-c
+#      os: osx
+#      osx_image: xcode8.2
+#      node_js: false
+#      before_install:
+#        - nvm install 7
+#        - node --version
+#        - travis_retry npm install -g yarn
+#        - yarn -version
+#      install:
+#        - travis_retry gem install xcpretty
+#        - travis_retry yarn
+#      xcode_project: ios/PepperoniAppTemplate.xcodeproj
+#      xcode_scheme: ios/PepperoniAppTemplateTests
+#      script:
+#        - cd ios
+#        - xcodebuild -scheme PepperoniAppTemplate -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO | xcpretty
+#        - travis_retry xctool run-tests -scheme PepperoniAppTemplate -sdk iphonesimulator -launch-timeout 90  ONLY_ACTIVE_ARCH=NO
