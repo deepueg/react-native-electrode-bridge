@@ -38,7 +38,7 @@ matrix:
 
       before_script:
         - android list target
-        - echo no | android create avd --force -n test -t android-24
+        - echo no | android create avd --force -n test -t android-24 -engine classic
         - emulator -avd test -no-skin -no-audio -no-window &
         - android-wait-for-emulator
 
