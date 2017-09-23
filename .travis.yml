@@ -27,6 +27,7 @@ matrix:
         components:
           - build-tools-26.0.0
           - android-24
+          - android-22
           - extra-android-m2repository
           - extra-google-google_play_services
           - extra-google-m2repository
