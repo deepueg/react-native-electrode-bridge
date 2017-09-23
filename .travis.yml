@@ -31,17 +31,17 @@ matrix:
           - extra-google-google_play_services
           - extra-google-m2repository
           - addon-google_apis-google-16
-          - sys-img-armeabi-v7a-android-24
+          - sys-img-armeabi-v7a-android-22
 
         licenses:
           - 'android-sdk-license-.+'
 
       before_script:
         - android list target
-        - echo no | android create avd --force -n test -t android-24 -engine classic
+        - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
         - emulator -avd test -no-skin -no-audio -no-window &
         - android-wait-for-emulator
-
+        - adb shell input keyevent 82 &
       script:
         - cd android && ./gradlew connectedAndroidTest
 
