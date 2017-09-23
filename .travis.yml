@@ -1,6 +1,5 @@
 language: node_js
 node_js:
-  - "6.9"
   - "7.1"
 sudo: false
 
@@ -46,20 +45,20 @@ matrix:
       script:
         - cd android && ./gradlew connectedAndroidTest
 
-    - language: objective-c
-      os: osx
-      osx_image: xcode8.3
-      node_js: false
-      before_install:
-        - nvm install 7
-        - rm -Rf "${TMPDIR}/jest_preprocess_cache"
-        - node --version
-        - travis_retry npm install -g yarn
-        - yarn add react-native@0.48.3
-
-      install:
-        - travis_retry gem install xcpretty
-        - travis_retry yarn
-
-      script:
-        - ./scripts/objc-test-ios.sh
+#    - language: objective-c
+#      os: osx
+#      osx_image: xcode8.3
+#      node_js: false
+#      before_install:
+#        - nvm install 7
+#        - rm -Rf "${TMPDIR}/jest_preprocess_cache"
+#        - node --version
+#        - travis_retry npm install -g yarn
+#        - yarn add react-native@0.48.3
+#
+#      install:
+#        - travis_retry gem install xcpretty
+#        - travis_retry yarn
+#
+#      script:
+#        - ./scripts/objc-test-ios.sh
