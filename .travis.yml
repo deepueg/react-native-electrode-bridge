@@ -31,7 +31,10 @@ matrix:
           - extra-google-google_play_services
           - extra-google-m2repository
           - addon-google_apis-google-16
-          - sys-img-armeabi-v7a-addon-google_apis-google-24
+          - sys-img-armeabi-v7a-android-21
+
+        licenses:
+          - 'android-sdk-license-.+'
 
       before_script:
         - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
@@ -40,7 +43,9 @@ matrix:
         - adb shell input keyevent 82 &
 
       script:
+        - android list target
         - cd android && ./gradlew connectedAndroidTest
+
     - language: objective-c
       os: osx
       osx_image: xcode8.3
